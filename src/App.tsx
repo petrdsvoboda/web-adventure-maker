@@ -1,22 +1,12 @@
-import * as React from 'react';
-import './App.css';
+import * as React from "react";
 
-import logo from './logo.svg';
+interface Props {}
+interface State {}
 
-class App extends React.Component {
+export class $1 extends React.Component<Props, State> {
+  private readonly state: State = {};
+
   public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
+    return null;
   }
 }
-
-export default App;
