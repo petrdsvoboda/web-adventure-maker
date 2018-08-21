@@ -1,13 +1,23 @@
-import { createStore } from "redux";
+import { compose, createStore } from 'redux'
 
-import reducer from "./reducer";
+import reducer from './reducer'
 
-function configureStore(initialState?: object) {
-  return createStore(reducer, initialState!);
+const composeEnhancers =
+	(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+export const configureStore = () => {
+	const store = createStore(reducer, composeEnhancers())
+
+	if (process.env.NODE_ENV !== 'production') {
+		if (module.hot) {
+			module.hot.accept('./reducer', () => {
+				const test = require('./reducer')
+				store.replaceReducer(test)
+			})
+		}
+	}
+
+	return store
 }
 
-// pass an optional param to rehydrate state on app start
-const store = configureStore();
-
-// export store singleton instance
-export default store;
+export default configureStore
