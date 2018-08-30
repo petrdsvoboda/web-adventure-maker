@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux'
 
-import { reducer, IState, ActionMap } from "./reducers/data";
+import { reducer, IState, ActionMap } from './reducers/data'
 
-interface IRootState {
-  readonly data: IState;
+export interface IRootState {
+	readonly data: IState
 }
 
-type RootActions = ActionMap;
+type RootActions = ActionMap
 
-export default combineReducers<IRootState, RootActions>({ data: reducer });
+export default combineReducers<IRootState, RootActions>({ data: reducer })
