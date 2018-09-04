@@ -1,17 +1,18 @@
 import { Action, ActionCreator, Reducer } from 'redux'
 import { assocPath, dissocPath } from 'ramda'
+import { generate as generateId } from 'shortid'
 
 interface ILine {
-	id?: number
+	id?: string
 	text?: string
 }
 
 export class Line implements ILine {
-	public id: number
+	public id: string
 	public text: string
 
 	constructor(line: ILine) {
-		this.id = 1
+		this.id = generateId()
 		Object.assign(this, line)
 	}
 }
@@ -42,10 +43,10 @@ export interface IRemoveLineAction extends Action<ActionTypes.RemoveLine> {
 
 export type ActionMap = IAddLineAction | IEditineAction | IRemoveLineAction
 
-export const addLine: ActionCreator<IAddLineAction> = (line: ILine) => ({
+export const addLine: ActionCreator<IAddLineAction> = (text: string) => ({
 	type: ActionTypes.AddLine,
 	payload: {
-		line: new Line(line)
+		line: new Line({ text })
 	}
 })
 
