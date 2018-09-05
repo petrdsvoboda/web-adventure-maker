@@ -23,7 +23,7 @@ export interface IEditineAction extends Action<ActionTypes.EditLine> {
 
 export interface IRemoveLineAction extends Action<ActionTypes.RemoveLine> {
 	payload: {
-		id: number
+		id: string
 	}
 }
 
@@ -33,6 +33,13 @@ export const addLine: ActionCreator<IAddLineAction> = (text: string) => ({
 	type: ActionTypes.AddLine,
 	payload: {
 		line: new Line({ text })
+	}
+})
+
+export const removeLine: ActionCreator<IRemoveLineAction> = (id: string) => ({
+	type: ActionTypes.RemoveLine,
+	payload: {
+		id
 	}
 })
 
