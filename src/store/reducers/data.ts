@@ -1,21 +1,7 @@
 import { Action, ActionCreator, Reducer } from 'redux'
 import { assocPath, dissocPath } from 'ramda'
-import { generate as generateId } from 'shortid'
 
-interface ILine {
-	id?: string
-	text?: string
-}
-
-export class Line implements ILine {
-	public id: string
-	public text: string
-
-	constructor(line: ILine) {
-		this.id = generateId()
-		Object.assign(this, line)
-	}
-}
+import Line, { ILine } from '../../models/Line'
 
 export enum ActionTypes {
 	AddLine = 'data/ADD_LINE',

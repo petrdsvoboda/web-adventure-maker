@@ -1,9 +1,16 @@
+import { generate as generateId } from 'shortid'
+
 export interface ILine {
-	id?: number
+	id?: string
 	text?: string
 }
 
 export default class Line implements ILine {
-	public id: number
+	public id: string
 	public text: string
+
+	constructor(line: ILine) {
+		this.id = generateId()
+		Object.assign(this, line)
+	}
 }

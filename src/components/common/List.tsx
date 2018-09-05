@@ -8,8 +8,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
 
+import Line from '../../models/Line'
 import { IRootState } from '../../store/reducer'
-import { Line, addLine } from '../../store/reducers/data'
+import { addLine } from '../../store/reducers/data'
 
 interface IProps {
 	lines: Line[]
