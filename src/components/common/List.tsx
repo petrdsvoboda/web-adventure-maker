@@ -4,13 +4,12 @@ import { connect } from 'react-redux'
 
 import Button from '@material-ui/core/Button'
 import MUIList from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
 
 import Line from '../../models/Line'
 import { IRootState } from '../../store/reducer'
 import { addLine } from '../../store/reducers/data'
+import ListItem from './ListItem'
 
 interface IProps {
 	lines: Line[]
@@ -39,11 +38,7 @@ class List extends React.Component<IProps> {
 		this.props.addLine('k')
 	}
 
-	private mapLine = (line: Line) => (
-		<ListItem key={line.id}>
-			<ListItemText primary={line.text} />
-		</ListItem>
-	)
+	private mapLine = (line: Line) => <ListItem key={line.id} line={line} />
 }
 
 function mapStateToProps(state: IRootState) {
