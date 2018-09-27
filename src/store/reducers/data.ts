@@ -1,47 +1,34 @@
-import { Action, ActionCreator, Reducer } from 'redux'
+import { Reducer } from 'redux'
 import { assocPath, dissocPath } from 'ramda'
 
-import Line, { ILine } from '../../models/Line'
+import {
+	createAction,
+	ActionsUnion,
+	IActionWithPayload
+} from '../../utils/actions'
+import Line from '../../models/Line'
 
 export enum ActionTypes {
-	AddLine = 'data/ADD_LINE',
-	EditLine = 'data/EDIT_LINE',
-	RemoveLine = 'data/REMOVE_LINE'
+	AddLine = '[data] ADD_LINE',
+	EditLine = '[data] EDIT_LINE',
+	RemoveLine = '[data] REMOVE_LINE'
 }
 
-export interface IAddLineAction extends Action<ActionTypes.AddLine> {
-	payload: {
-		line: Line
-	}
-}
-
-export interface IEditineAction extends Action<ActionTypes.EditLine> {
-	payload: {
-		line: ILine
-	}
-}
-
-export interface IRemoveLineAction extends Action<ActionTypes.RemoveLine> {
-	payload: {
-		id: string
-	}
-}
-
-export type ActionMap = IAddLineAction | IEditineAction | IRemoveLineAction
-
-export const addLine: ActionCreator<IAddLineAction> = (text: string) => ({
-	type: ActionTypes.AddLine,
-	payload: {
+export const addLine = (text: string) =>
+	createAction(ActionTypes.AddLine, {
 		line: new Line({ text })
-	}
-})
-
-export const removeLine: ActionCreator<IRemoveLineAction> = (id: string) => ({
-	type: ActionTypes.RemoveLine,
-	payload: {
+	})
+export const removeLine = (id: string) =>
+	createAction(ActionTypes.RemoveLine, {
 		id
-	}
-})
+	})
+
+export const Actions = {
+	addLine,
+	removeLine
+}
+
+export type Actions = ActionsUnion<typeof Actions>
 
 interface IDataMap<T> {
 	[key: number]: T
@@ -55,23 +42,23 @@ const initialState: IState = {
 	lines: {}
 }
 
-type ReducerMap = { [key in ActionTypes]: Reducer<IState, ActionMap> }
+type ReducerMap = { [key in ActionTypes]: Reducer<IState, Actions> }
 
 const reducerMap: ReducerMap = {
-	[ActionTypes.AddLine]: (state: IState, action: IAddLineAction) => {
+	[ActionTypes.AddLine]: (state, action) => {
 		const { line } = action.payload
 		return assocPath(['lines', line.id.toString()], line, state)
 	},
-	[ActionTypes.EditLine]: (state: IState, action: IEditineAction) => state,
-	[ActionTypes.RemoveLine]: (state: IState, action: IRemoveLineAction) => {
-		const { id } = action.payload
+	[ActionTypes.EditLine]: state => state,
+	[ActionTypes.RemoveLine]: (state, action) => {
+		const { payload: id } = action.payload
 		return dissocPath(['lines', id], state)
 	}
-}
+} as ReducerMap
 
 export const reducer: Reducer<IState> = (
 	state: IState = initialState,
-	action: ActionMap
+	action: Actions
 ) => {
 	const useReducer = reducerMap[action.type]
 	return useReducer ? useReducer(state, action) : state
